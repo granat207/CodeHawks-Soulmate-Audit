@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
+//@audit, Informational, consider using a single solidity version like 0.8.18 and not multiples versions
+//@audit, Informational, consider using a solidity version less recent, 0.8.23 may be too new, consider deploying with 0.8.18
 pragma solidity ^0.8.23;
 
 import {ERC721} from "@solmate/tokens/ERC721.sol";
@@ -19,7 +21,7 @@ contract Soulmate is ERC721 {
     //////////////////////////////////////////////////////////////*/
 
     string[4] niceWords = ["sweetheart", "darling", "my dear", "honey"];
-
+    
     mapping(uint256 id => address[2] owners) private idToOwners;
     mapping(uint256 id => uint256 timestamp) public idToCreationTimestamp;
     mapping(address soulmate1 => address soulmate2) public soulmateOf;
@@ -55,10 +57,11 @@ contract Soulmate is ERC721 {
     //////////////////////////////////////////////////////////////*/
 
     constructor() ERC721("Soulmate", "SLMT") {}
-
+ 
     /// @notice Used to mint a token when soulmates are reunited.
     /// @notice Soulmates are reunited every time a second people try to mint the same ID.
     /// @return ID of the minted NFT.
+   
     function mintSoulmateToken() public returns (uint256) {
         // Check if people already have a soulmate, which means already have a token
         address soulmate = soulmateOf[msg.sender];
@@ -69,6 +72,7 @@ contract Soulmate is ERC721 {
         address soulmate2 = idToOwners[nextID][1];
         if (soulmate1 == address(0)) {
             idToOwners[nextID][0] = msg.sender;
+           
             ownerToId[msg.sender] = nextID;
             emit SoulmateIsWaiting(msg.sender);
         } else if (soulmate2 == address(0)) {
@@ -78,15 +82,15 @@ contract Soulmate is ERC721 {
             soulmateOf[msg.sender] = soulmate1;
             soulmateOf[soulmate1] = msg.sender;
             idToCreationTimestamp[nextID] = block.timestamp;
-
+           
             emit SoulmateAreReunited(soulmate1, soulmate2, nextID);
-
+         
             _mint(msg.sender, nextID++);
         }
 
         return ownerToId[msg.sender];
     }
-
+  
     /// @dev will be added after audit.
     /// @dev Since it is only used by wallets, it won't create any edge case.
     function tokenURI(uint256) public pure override returns (string memory) {
@@ -104,7 +108,9 @@ contract Soulmate is ERC721 {
     /// @notice Allows any soulmates with the same NFT ID to write in a shared space on blockchain.
     /// @param message The message to write in the shared space.
     function writeMessageInSharedSpace(string calldata message) external {
+
         uint256 id = ownerToId[msg.sender];
+       
         sharedSpace[id] = message;
         emit MessageWrittenInSharedSpace(id, message);
     }
@@ -113,15 +119,18 @@ contract Soulmate is ERC721 {
     function readMessageInSharedSpace() external view returns (string memory) {
         // Add a little touch of romantism
         return
+      
             string.concat(
                 sharedSpace[ownerToId[msg.sender]],
                 ", ",
+               
                 niceWords[block.timestamp % niceWords.length]
             );
     }
 
     /// @notice Cancel possibily for 2 lovers to collect LoveToken from the airdrop.
     function getDivorced() public {
+       
         address soulmate2 = soulmateOf[msg.sender];
         divorced[msg.sender] = true;
         divorced[soulmateOf[msg.sender]] = true;

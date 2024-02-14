@@ -17,6 +17,7 @@ contract LoveToken is ERC20 {
     /*//////////////////////////////////////////////////////////////
                             STATE VARIABLES
     //////////////////////////////////////////////////////////////*/
+  
     ISoulmate public immutable soulmateContract;
     address public immutable airdropVault;
     address public immutable stakingVault;

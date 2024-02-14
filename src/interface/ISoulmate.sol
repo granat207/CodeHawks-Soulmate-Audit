@@ -13,7 +13,7 @@ interface ISoulmate {
     function mintSoulmateToken() external returns (uint256);
 
     function tokenURI(uint256) external pure returns (string memory);
-
+    
     function transferFrom(address from, address to, uint256 id) external;
 
     function writeMessageInSharedSpace(string calldata message) external;
