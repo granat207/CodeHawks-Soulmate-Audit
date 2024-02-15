@@ -1,6 +1,7 @@
-<p align="center">
-<img src="https://res.cloudinary.com/droqoz7lg/image/upload/q_90/dpr_2.0/c_fill,g_auto,h_320,w_320/f_auto/v1/company/jlaqqfofafa01emq3nh8?_a=BATAUVAA0" width="400" alt="soulmate">
-<br/>
+# Description 
+Soulmate Audit by Daniel Vigo. 
+
+Soulmate is a protocol made by CodeHawks, you can see this in the section "First Fligths" on the CodeHawks official Website.
 
 
 # Usage
